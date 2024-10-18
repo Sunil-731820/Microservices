@@ -74,20 +74,29 @@ public class RegisterLoginController {
 	@PostMapping("/forgotPassword")
 	public String forgotPassordProcess(@ModelAttribute UserDTO userDTO) {
 		String output = "";
+		logger.info("callig the forgotPasswordProcesss okay :");
+		logger.info("the Email is :="+userDTO.getEmail());
 		User user = userRepository.findByEmail(userDTO.getEmail());
 		if (user != null) {
+			logger.info("Inside the If Block for user :");
 			output = userDetailsService.sendEmail(user);
+			logger.info("the output of The Text is :"+output);
 		}
 		if (output.equals("success")) {
+			logger.info("Sucees Msg");
 			return "redirect:/forgotPassword?success";
 		}
+		logger.info("Error Login :=");
 		return "redirect:/login?error";
 	}
 
 	@GetMapping("/resetPassword/{token}")
 	public String resetPasswordForm(@PathVariable String token, Model model) {
+		logger.info("calling the resetPassword Token form Methods :=");
+		logger.info("The token is : ="+token);
 		PasswordResetToken reset = tokenRepository.findByToken(token);
 		if (reset != null && userDetailsService.hasExipred(reset.getExpiryDateTime())) {
+			logger.info("Inside the If Block for ResetPasswordform Methods :=");
 			model.addAttribute("email", reset.getUser().getEmail());
 			return "resetPassword";
 		}
