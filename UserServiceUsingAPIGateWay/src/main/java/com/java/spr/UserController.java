@@ -1,5 +1,7 @@
 package com.java.spr;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     // Create User
     @PostMapping
@@ -41,5 +45,12 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+    
+//    Finding the name Using The User name 
+    @GetMapping("/{name}")
+    public User getuserByName(@PathVariable String name) {
+    	logger.debug("The Name from The Above Http Request is :"+name);
+    	return userService.getUserByName(name);
     }
 }

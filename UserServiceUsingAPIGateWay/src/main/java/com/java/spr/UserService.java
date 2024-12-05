@@ -1,5 +1,7 @@
 package com.java.spr;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    Logger logger = LoggerFactory.getLogger(UserService.class);
 
     // Create a new user
     public User createUser(User user) {
@@ -39,5 +43,12 @@ public class UserService {
     // Delete a user
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+    
+//    FInding the name using user Name
+    
+    public User getUserByName(String name) {
+    	logger.debug("The value of the Name coming for Service layer is :"+name);
+    	return userRepository.findByName(name);
     }
 }
